@@ -18,6 +18,7 @@ jobs:
         workload_identity_provider: 'projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
         service_account: 'conformance-testing-invoker@sigstore-test-364020.iam.gserviceaccount.com'
         token_format: 'id_token'
+        id_token_audience: 'https://iam.googleapis.com/projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
 
     - name: 'Print token'
       run: 'echo ${{ steps.auth.outputs.id_token }}'
