@@ -1,26 +1,23 @@
 name: GitHub Actions Demo
 on: [push]
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  job_id:
+    # Add "id-token" with the intended permissions.
     permissions:
-      id-token: write
-    steps:
-      # This is required to share credentials between steps
-      - uses: 'actions/checkout@v3'
-      
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth'
-        with:
-          workload_identity_provider: 'projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
-          service_account: 'conformance-testing-invoker@sigstore-test-364020.iam.gserviceaccount.com'
-          
-      # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud'
+      contents: 'read'
+      id-token: 'write'
 
-      # Now you can run gcloud commands authenticated as the impersonated service account.
-      - id: 'gcloud'
-        name: 'gcloud'
-        run: gcloud auth print-identity-token
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
+        service_account: 'conformance-testing-invoker@sigstore-test-364020.iam.gserviceaccount.com'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+      with:
+        version: '>= 363.0.0'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud auth print-identity-token'
