@@ -3,14 +3,11 @@ on: [push]
 jobs:
   job_id:
     runs-on: ubuntu-latest
-    # Add "id-token" with the intended permissions.
+    
     permissions:
-      contents: 'read'
       id-token: 'write'
 
     steps:
-    # This is required to share credentials between steps
-    - uses: 'actions/checkout@v3'
     
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
@@ -20,5 +17,5 @@ jobs:
         token_format: 'id_token'
         id_token_audience: 'https://iam.googleapis.com/projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
 
-    - name: 'Print token'
+    - name: 'Do something with the token'
       run: 'echo ${{ steps.auth.outputs.id_token }}'
