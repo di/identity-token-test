@@ -23,5 +23,5 @@ jobs:
       # Now you can run gcloud commands authenticated as the impersonated service account.
       - id: 'gcloud'
         name: 'gcloud'
-        run: gcloud auth list
+        run: gcloud auth print-identity-token
         #run: gcloud functions call conformance-token-service
