@@ -11,14 +11,14 @@ jobs:
       
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth'
         with:
           workload_identity_provider: 'projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
           service_account: 'conformance-testing-invoker@sigstore-test-364020.iam.gserviceaccount.com'
           
       # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+        uses: 'google-github-actions/setup-gcloud'
 
       # Now you can run gcloud commands authenticated as the impersonated service account.
       - id: 'gcloud'
