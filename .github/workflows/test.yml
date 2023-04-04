@@ -6,8 +6,18 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Get the token and make a request
-        run: |
-          resp=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://iam.googleapis.com/projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions") \
-          echo $resp
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/988791436232/locations/global/workloadIdentityPools/conformance-testing-id-pool/providers/github-actions'
+          service_account: 'conformance-testing-invoker@sigstore-test-364020.iam.gserviceaccount.com'
+          
+      # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      # Now you can run gcloud commands authenticated as the impersonated service account.
+      - id: 'gcloud'
+        name: 'gcloud'
+        run: gcloud auth print-identity-token
