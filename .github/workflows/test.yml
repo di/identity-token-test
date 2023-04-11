@@ -8,6 +8,7 @@ jobs:
       id-token: 'write'
 
     steps:
+    - run: 'curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=blah" | base64'
     
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
